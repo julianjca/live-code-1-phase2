@@ -21,6 +21,28 @@ module.exports = {
         err
       });
     });
-  }
+  },
+
+  login : function(req,res){
+    User.findOne({
+      email : req.body.email
+    })
+    .then(data=>{
+      if(data){
+        jwt.sign({
+          foo: 'bar'
+        }, process.env.JWT_SECRET,function(err, token) {
+          res.status(201).json({
+            "token" : token
+          });
+        });
+      }
+    })
+    .catch(err=>{
+      res.status(500).json({
+        err
+      });
+    });
+  },
 };
 
