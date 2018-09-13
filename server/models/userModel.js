@@ -12,7 +12,13 @@ const userSchema = new Schema({
     },
     password : {
         type : String
-    }
+    },
+    quotes : [
+        {
+            type : mongoose.Schema.Types.ObjectId,
+            ref : 'Quotes'
+        }
+    ]
 },{
     timestamps: true
 });
