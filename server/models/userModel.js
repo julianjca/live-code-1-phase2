@@ -27,7 +27,3 @@ userSchema.pre('save', function(next) {
 
 const User = mongoose.model('User', userSchema);
 module.exports = User;
-// boughtProducts : [{
-//     type : mongoose.Schema.Types.ObjectId,
-//     ref : 'Product'
-//   }]
