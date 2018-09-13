@@ -7,6 +7,7 @@ module.exports = {
     Quotes.create(req.body)
     .then(data=>{
       res.status(201).json(data);
+      console.log(sukses);
     })
     .catch(err=>{
       res.status(500).json({

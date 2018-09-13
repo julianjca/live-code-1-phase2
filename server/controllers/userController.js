@@ -58,5 +58,21 @@ module.exports = {
       });
     });
   },
+
+  auth : function(req,res){
+    const token = req.headers.token;
+    jwt.verify(token, process.env.JWT_SECRET, function(err, decoded) {
+      if(!err){
+        res.status(200).json({
+          id : decoded.id
+        });
+      }
+      else{
+        res.status(403).json({
+          msg : 'Unauthorized'
+        });
+      }
+    });
+  }
 };
 
