@@ -49,68 +49,20 @@
           <div class="row">
             <add-quote v-if="isLogin" @adding-quote="addQuote"></add-quote>
           </div>
+
           <hr>
-          <div class="row">
-            <div class="col-lg-6 col-sm-6 portfolio-item">
-              <div class="card h-70">
-                <div class="card-body">
-                  <h4 class="card-title">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua
-                  </h4>
-                  <a href="#">Delete</a> | <a href="#">Translate</a>
-                  <p class="translate font-italic">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua
-                  </p>
-                </div>
-              </div>
-            </div>
+          <div class="container-quotes" style="display:grid;
+          grid-template-columns: 1fr 1fr; grid-gap : 10px;">
 
-            <div class="col-lg-6 col-sm-6 portfolio-item">
+            <div class="col-lg-6 col-sm-6 portfolio-item" v-for="(quote,index) in quotes" :key="index">
               <div class="card h-70">
                 <div class="card-body">
-                  <h4 class="card-title">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua
-                  </h4>
-                  <a href="#">Delete</a> | <a href="#">Translate</a>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-6 col-sm-6 portfolio-item">
-              <div class="card h-70">
-                <div class="card-body">
-                  <h4 class="card-title">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua
-                  </h4>
-                  <a href="#">Delete</a> | <a href="#">Translate</a>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-6 col-sm-6 portfolio-item">
-              <div class="card h-70">
-                <div class="card-body">
-                  <h4 class="card-title">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua
-                  </h4>
-                  <a href="#">Delete</a> | <a href="#">Translate</a>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-6 col-sm-6 portfolio-item">
-              <div class="card h-70">
-                <div class="card-body">
-                  <h4 class="card-title">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua
-                  </h4>
-                  <a href="#">Delete</a> | <a href="#">Translate</a>
+                  <h3 class="card-title">
+                    {{quote.status}}
+                  </h3>
+                  <h4>{{container}}</h4>
+                  <a href="#" v-if="quote.user===logid" @click="removeQuote(quote._id)">Delete</a> | <a href="#" v-if="isLogin"
+                    @click="translateText(quote.status,index)">Translate</a>
                 </div>
               </div>
             </div>

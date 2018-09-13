@@ -3,7 +3,10 @@ const app = new Vue({
   data: {
     message: '',
     isLogin : false,
-    quotes : []
+    quotes : [],
+    isUserQuote : false,
+    logid : '',
+    container : ''
   },
 
   methods :{
@@ -44,6 +47,7 @@ const app = new Vue({
     logOut(){
       localStorage.removeItem('token');
       this.isLogin = false;
+      this.logid = '';
     },
 
     addQuote(quote){
@@ -65,7 +69,7 @@ const app = new Vue({
           }
         })
         .then(res=>{
-          console.log(res);
+          app.quotes.push(res.data);
         })
         .catch(err=>{
           console.log(err);
@@ -77,6 +81,41 @@ const app = new Vue({
 
   },
 
+  removeQuote(id){
+    axios({
+      method : "delete",
+      url: `http://localhost:3000/quotes/${id}`
+    })
+    .then(data=>{
+      for(let i = 0;i<app.quotes.length;i++){
+        if(app.quotes[i]._id===id){
+          app.quotes.splice(i,1);
+        }
+      }
+    })
+    .catch(err=>{
+      console.log(err);
+    });
+  },
+
+  translateText(status,index,quoteTranslated){
+    axios({
+      method : "post",
+      url: `http://localhost:3000/translate`,
+      data : {
+        text : status
+      }
+    })
+    .then(data=>{
+      console.log(data.data.text);
+      app.container = data.data.text;
+    })
+    .catch(err=>{
+      console.log(err);
+    });
+  }
+
+  },
   created (){
     const token = localStorage.getItem("token");
       axios({
@@ -87,16 +126,23 @@ const app = new Vue({
         }
       })
       .then(data=>{
-        if(data.data!==null||data.data!==undefined){
-          app.isLogin = true;
-        }
-        else{
-          app.isLogin = false;
-        }
+        console.log(data);
+        app.isLogin = true;
+        app.logid = data.data.id;
       })
       .catch(err=>{
         console.log(err);
       });
-  }
-}
+
+        axios({
+          method : "get",
+          url: 'http://localhost:3000/quotes'
+        })
+        .then(data=>{
+          app.quotes = data.data;
+        })
+        .catch(err=>{
+          console.log(err);
+        });
+    }
 });

@@ -2,6 +2,9 @@ const User = require('../models/userModel');
 const mongodb = require('mongodb');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const translate = require('google-translate-api');
+
+
 
 module.exports = {
   register : function(req,res){
@@ -73,6 +76,16 @@ module.exports = {
         });
       }
     });
+  },
+
+  translate : function(req,res){
+    translate(req.body.text, {to: 'en'}).then(response => {
+      res.status(200).json({
+        text : response.text
+      })
+  }).catch(err => {
+      console.error(err);
+  });
   }
 };
 
