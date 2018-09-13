@@ -29,12 +29,26 @@ module.exports = {
     })
     .then(data=>{
       if(data){
-        jwt.sign({
-          foo: 'bar'
-        }, process.env.JWT_SECRET,function(err, token) {
-          res.status(201).json({
-            "token" : token
+        const isPasswordValid = bcrypt.compareSync(req.body.password, data.password);
+        if(isPasswordValid){
+          jwt.sign({
+            email : data.email,
+            id : data._id
+          }, process.env.JWT_SECRET,function(err, token) {
+            res.status(201).json({
+              "token" : token
+            });
           });
+        }
+        else{
+          res.status(500).json({
+            msg : "email/password is wrong"
+          });
+        }
+      }
+      else{
+        res.status(500).json({
+          msg : "email/password is wrong"
         });
       }
     })
